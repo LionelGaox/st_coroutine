@@ -96,7 +96,7 @@ public:
 
         return err;
     }
-    
+
     srs_error_t cycle() {
         srs_error_t err = srs_success;
 
@@ -114,14 +114,18 @@ public:
             to_addr.sin_family = AF_INET;
             to_addr.sin_addr.s_addr = inet_addr(ip.c_str());
 
-            if(num%2==0) {
-                to_addr.sin_port = htons(14000);
-            } else {
-                to_addr.sin_port = htons(15000);
-            }
-
             string sendMsg = "16000 Send idx : " + to_string(num);
             srs_error( "UdpTestWork send [%s]",sendMsg.c_str() );
+            if(num%3==0) {
+                to_addr.sin_port = htons(14000);
+                srs_error( "UdpTestWork send [%s]",sendMsg.c_str() );
+            } else if (num%3==1) {
+                to_addr.sin_port = htons(15000);
+                srs_error( "UdpTestWork send [%s]",sendMsg.c_str() );
+            } else {
+                to_addr.sin_port = htons(13000);
+                srs_error( "UdpTestWork send [%s] 13000",sendMsg.c_str() );
+            }
 
             if ((nwirte = srs_sendto(udp_->listener_->stfd(), (void*)sendMsg.c_str(), sendMsg.size(), (sockaddr*)&to_addr, sizeof(sockaddr_in), SRS_UTIME_NO_TIMEOUT)) <= 0) {
                 return srs_error_new(ERROR_SOCKET_READ, "udp wirte, nwirte=%d", nwirte);
@@ -152,16 +156,16 @@ void do_main()
     srs_info("do_main 1");
 
     auto udp1 = UdpServer();
-    if((err=udp1.listen("172.24.253.16", 14000)) != srs_success) {
+    if((err=udp1.listen("172.22.226.201", 14000)) != srs_success) {
         srs_error( "listen failed [%s]", srs_error_desc(err).c_str() );
     }
 
     auto udp2 = UdpServer();
-    if((err=udp2.listen("172.24.253.16", 15000)) != srs_success) {
+    if((err=udp2.listen("172.22.226.201", 15000)) != srs_success) {
         srs_error( "listen failed [%s]", srs_error_desc(err).c_str() );
     }
 
-    auto work = UdpTestWork("172.24.253.16", 16000);
+    auto work = UdpTestWork("172.22.226.201", 16000);
     work.run();
 
     srs_info("do_main 2");
@@ -169,17 +173,10 @@ void do_main()
         srs_usleep( 10 * 1000 * 1000);
     }
 
-
 }
-
-#include <st.h>
 
 int main(int argc, const char* argv[])
 {
-    // test t;
-    // cout << "aaaa:" << t.a << endl;
-    // srs_thread_yield();
-    
     do_main();
 
     srs_trace("demo exit");
