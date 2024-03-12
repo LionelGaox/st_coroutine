@@ -115,7 +115,7 @@ extern void _st_md_cxt_restore(_st_jmp_buf_t env, int val);
         (void) gettimeofday(&tv, NULL); \
         return (tv.tv_sec * 1000000LL + tv.tv_usec)
 
-#elif defined (LINUX)
+#elif defined (LINUX) || defined (QNX)
 
     /*
      * These are properties of the linux kernel and are the same on every

@@ -86,6 +86,7 @@ public:
         udp_ = new UdpServer();
         if((err=udp_->listen(ip, port)) != srs_success) {
             srs_error( "UdpTestWork listen failed [%s]", srs_error_desc(err).c_str() );
+            return srs_error_wrap(err, "listen err");
         }
 
         srs_freep(trd);
@@ -156,17 +157,22 @@ void do_main()
     srs_info("do_main 1");
 
     auto udp1 = UdpServer();
-    if((err=udp1.listen("172.22.226.201", 14000)) != srs_success) {
+    if((err=udp1.listen("192.168.70.64", 14000)) != srs_success) {
         srs_error( "listen failed [%s]", srs_error_desc(err).c_str() );
+        return;
     }
 
     auto udp2 = UdpServer();
-    if((err=udp2.listen("172.22.226.201", 15000)) != srs_success) {
+    if((err=udp2.listen("192.168.70.64", 15000)) != srs_success) {
         srs_error( "listen failed [%s]", srs_error_desc(err).c_str() );
+        return;
     }
 
-    auto work = UdpTestWork("172.22.226.201", 16000);
-    work.run();
+    auto work = UdpTestWork("192.168.70.64", 16000);
+    if((err=work.run()) != srs_success) {
+        srs_error( "work run failed [%s]", srs_error_desc(err).c_str() );
+        return;
+    }
 
     srs_info("do_main 2");
     while(true) {

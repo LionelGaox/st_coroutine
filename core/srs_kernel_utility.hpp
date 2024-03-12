@@ -20,10 +20,6 @@ class SrsBitBuffer;
 #define srs_min(a, b) (((a) < (b))? (a) : (b))
 #define srs_max(a, b) (((a) < (b))? (b) : (a))
 
-// To read H.264 NALU uev.
-extern srs_error_t srs_avc_nalu_read_uev(SrsBitBuffer* stream, int32_t& v);
-extern srs_error_t srs_avc_nalu_read_bit(SrsBitBuffer* stream, int8_t& v);
-
 // Get current system time in srs_utime_t, use cache to avoid performance problem
 extern srs_utime_t srs_get_system_time();
 extern srs_utime_t srs_get_system_startup_time();
@@ -109,26 +105,6 @@ extern std::string srs_path_basename(std::string path);
 extern std::string srs_path_filename(std::string path);
 // Get the file extension of path, for instance, filext("live.flv")=".flv"
 extern std::string srs_path_filext(std::string path);
-
-// Whether stream starts with the avc NALU in "AnnexB" from ISO_IEC_14496-10-AVC-2003.pdf, page 211.
-// The start code must be "N[00] 00 00 01" where N>=0
-// @param pnb_start_code output the size of start code, must >=3. NULL to ignore.
-extern bool srs_avc_startswith_annexb(SrsBuffer* stream, int* pnb_start_code = NULL);
-
-// Whether stream starts with the aac ADTS from ISO_IEC_14496-3-AAC-2001.pdf, page 75, 1.A.2.2 ADTS.
-// The start code must be '1111 1111 1111'B, that is 0xFFF
-extern bool srs_aac_startswith_adts(SrsBuffer* stream);
-
-// Cacl the crc32 of bytes in buf, for ffmpeg.
-extern uint32_t srs_crc32_mpegts(const void* buf, int size);
-
-// Calc the crc32 of bytes in buf by IEEE, for zip.
-extern uint32_t srs_crc32_ieee(const void* buf, int size, uint32_t previous = 0);
-
-// Decode a base64-encoded string.
-extern srs_error_t srs_av_base64_decode(std::string cipher, std::string& plaintext);
-// Encode a plaintext to  base64-encoded string.
-extern srs_error_t srs_av_base64_encode(std::string plaintext, std::string& cipher);
 
 // Calculate the output size needed to base64-encode x bytes to a null-terminated string.
 #define SRS_AV_BASE64_SIZE(x) (((x)+2) / 3 * 4 + 1)

@@ -175,13 +175,6 @@
 ///////////////////////////////////////////////////////
 // The application level errors.
 ///////////////////////////////////////////////////////
-#define ERROR_HLS_METADATA                  3000
-#define ERROR_HLS_DECODE_ERROR              3001
-//#define ERROR_HLS_CREATE_DIR                3002
-#define ERROR_HLS_OPEN_FAILED               3003
-#define ERROR_HLS_WRITE_FAILED              3004
-#define ERROR_HLS_AAC_FRAME_LENGTH          3005
-#define ERROR_HLS_AVC_SAMPLE_SIZE           3006
 #define ERROR_HTTP_PARSE_URI                3007
 #define ERROR_HTTP_DATA_INVALID             3008
 #define ERROR_HTTP_PARSE_HEADER             3009

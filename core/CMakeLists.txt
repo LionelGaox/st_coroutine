@@ -15,5 +15,6 @@ target_link_directories(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE st
+    PRIVATE ${LINK_LIB_EXT}
 )
 

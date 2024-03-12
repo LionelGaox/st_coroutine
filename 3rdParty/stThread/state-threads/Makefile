@@ -118,6 +118,22 @@ OTHER_FLAGS = -Wall
 DEFINES     += -DMD_HAVE_SELECT
 endif
 
+ifeq ($(OS), QNX)
+
+CC          = /home/gaoxiang/acos/qnx/qnx710/host/linux/x86_64/usr/bin/ntoaarch64-gcc
+AR          = /home/gaoxiang/acos/qnx/qnx710/host/linux/x86_64/usr/bin/ntoaarch64-ar
+LD          = /home/gaoxiang/acos/qnx/qnx710/host/linux/x86_64/usr/bin/ntoaarch64-ld
+RANLIB      = /home/gaoxiang/acos/qnx/qnx710/host/linux/x86_64/usr/bin/ntoaarch64-ranlib
+LN          = /home/gaoxiang/acos/qnx/qnx710/host/linux/x86_64/usr/bin/qnx_ln
+
+EXTRA_OBJS  = $(TARGETDIR)/md_qnx.o
+CPU_ARCHS 	= aarch64
+SFLAGS      = -fPIC
+LDFLAGS     = -arch $(CPU_ARCHS) -shared -soname=$(SONAME) -lc -lsocket
+OTHER_FLAGS = -Wall
+DEFINES     += -DMD_HAVE_SELECT
+endif
+
 ifeq ($(OS), CYGWIN64)
 EXTRA_OBJS  = $(TARGETDIR)/md_cygwin64.o
 SFLAGS      = -fPIC
@@ -274,6 +290,9 @@ $(TARGETDIR)/md_linux.o: md_linux.S
 $(TARGETDIR)/md_linux2.o: md_linux2.S
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(TARGETDIR)/md_qnx.o: md_qnx.S
+	$(CC) $(CFLAGS) -c $< -o $@
+
 $(TARGETDIR)/md_darwin.o: md_darwin.S
 	$(CC) $(CFLAGS) -c $< -o $@
 
@@ -311,6 +330,9 @@ linux-debug:
 	$(MAKE) OS="LINUX" BUILD="DBG"
 linux-optimized:
 	$(MAKE) OS="LINUX" BUILD="OPT"
+
+qnx-debug:
+	$(MAKE) OS="QNX" BUILD="DBG"
 
 cygwin64-debug:
 	$(MAKE) OS="CYGWIN64" BUILD="DBG"
