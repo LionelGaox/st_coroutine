@@ -27,6 +27,8 @@ endif()
 set(PATH_3RD ${CMAKE_SOURCE_DIR}/3rdParty)
 set(PATH_ST_INC ${PATH_3RD}/stThread/state-threads/obj)
 set(PATH_ST_LIB ${PATH_3RD}/stThread/state-threads/obj)
+set(PATH_BOOST_INC ${PATH_3RD}/boost/include)
+set(PATH_BOOST_LIB ${PATH_3RD}/boost/lib)
 
 project(eventDemo LANGUAGES C CXX)
 
@@ -38,16 +40,20 @@ target_sources(${PROJECT_NAME} PRIVATE
 )
 
 target_include_directories(${PROJECT_NAME}
+    PRIVATE ${PATH_BOOST_INC}
     PRIVATE ${PATH_ST_INC}
     PRIVATE ${PROJECT_SOURCE_DIR}/core
 )
 
 target_link_directories(${PROJECT_NAME}
     PRIVATE ${PATH_ST_LIB}
+    PRIVATE ${PATH_BOOST_LIB}
 )
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE core
+    PRIVATE boost_serialization
+    PRIVATE pthread
 )
 
 
