@@ -218,42 +218,42 @@ int main_1(int argc, const char* argv[])
 }
 
 
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/archive/binary_oarchive.hpp>
-#include <boost/archive/binary_iarchive.hpp>
-#include <boost/serialization/vector.hpp>
+// #include <iostream>
+// #include <fstream>
+// #include <vector>
+// #include <boost/archive/text_oarchive.hpp>
+// #include <boost/archive/text_iarchive.hpp>
+// #include <boost/archive/binary_oarchive.hpp>
+// #include <boost/archive/binary_iarchive.hpp>
+// #include <boost/serialization/vector.hpp>
 
-int main_bak(int argc, const char* argv[])
-{
-    std::vector<int> numbers = {1, 2, 3, 4, 5};
-    std::vector<int> numbers_out;
+// int main_bak(int argc, const char* argv[])
+// {
+//     std::vector<int> numbers = {1, 2, 3, 4, 5};
+//     std::vector<int> numbers_out;
 
-    // 序列化
-    std::ostringstream oss;
-    boost::archive::binary_oarchive oa(oss);
-    oa << BOOST_SERIALIZATION_NVP(numbers);
-    const std::string& str_in = oss.str();
+//     // 序列化
+//     std::ostringstream oss;
+//     boost::archive::binary_oarchive oa(oss);
+//     oa << BOOST_SERIALIZATION_NVP(numbers);
+//     const std::string& str_in = oss.str();
 
-    // 反序列化
-    std::istringstream iss(str_in);
-    boost::archive::binary_iarchive ia(iss);
-    ia >> BOOST_SERIALIZATION_NVP(numbers_out);
-    // ifs.close();
+//     // 反序列化
+//     std::istringstream iss(str_in);
+//     boost::archive::binary_iarchive ia(iss);
+//     ia >> BOOST_SERIALIZATION_NVP(numbers_out);
+//     // ifs.close();
 
-    // 打印反序列化后的容器内容
-    std::printf("sizeof[%ld] data[%x][%x][%x][%x]\n", str_in.size(), str_in.c_str()[0], str_in.c_str()[17], str_in.c_str()[34], str_in.c_str()[67]);
+//     // 打印反序列化后的容器内容
+//     std::printf("sizeof[%ld] data[%x][%x][%x][%x]\n", str_in.size(), str_in.c_str()[0], str_in.c_str()[17], str_in.c_str()[34], str_in.c_str()[67]);
 
-    for (const auto& num : numbers_out) {
-        std::cout << num << " ";
-    }
-    std::cout << std::endl;
+//     for (const auto& num : numbers_out) {
+//         std::cout << num << " ";
+//     }
+//     std::cout << std::endl;
 
-    return 0;
-}
+//     return 0;
+// }
 
 #include "srs_app_ringbuf.hpp"
 #include "srs_app_stcondition.hpp"

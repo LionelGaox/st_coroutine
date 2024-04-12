@@ -40,19 +40,19 @@ target_sources(${PROJECT_NAME} PRIVATE
 )
 
 target_include_directories(${PROJECT_NAME}
-    PRIVATE ${PATH_BOOST_INC}
+    # PRIVATE ${PATH_BOOST_INC}
     PRIVATE ${PATH_ST_INC}
     PRIVATE ${PROJECT_SOURCE_DIR}/core
 )
 
 target_link_directories(${PROJECT_NAME}
     PRIVATE ${PATH_ST_LIB}
-    PRIVATE ${PATH_BOOST_LIB}
+    # PRIVATE ${PATH_BOOST_LIB}
 )
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE core
-    PRIVATE boost_serialization
+    # PRIVATE boost_serialization
     PRIVATE pthread
 )
 
