@@ -1,0 +1,22 @@
+
+if(${BUILD_OS_TYPE} STREQUAL "linux")
+    message( "== os type: ${BUILD_OS_TYPE}")
+elseif(${BUILD_OS_TYPE} STREQUAL "qnx")
+    message( "== os type: ${BUILD_OS_TYPE}")
+    set(QNX_HOST $ENV{QNX_HOST})
+    set(QNX_TARGET $ENV{QNX_TARGET})
+    set(CMAKE_SYSTEM_NAME QNX)
+    set(CMAKE_SYSTEM_PROCESSOR aarach64)
+    set(arch gcc_ntoaarch64le)
+    set(CMAKE_CXX_FLAGS "${CMAKE_EXE_LINKER_FLAGS}  -std=gnu++14")
+    set(CMAKE_C_COMPILER qcc)
+    set(CMAKE_C_COMPILER_TARGET ${arch})
+    set(CMAKE_CXX_COMPILER q++)
+    set(CMAKE_CXX_COMPILER_TARGET ${arch})
+    list(APPEND LINK_LIB_EXT socket c)
+
+    add_definitions(-DOS_QNX)
+else()
+    message(FATAL_ERROR "not support os type: ${BUILD_OS_TYPE}")
+endif()
+

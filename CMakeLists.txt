@@ -7,22 +7,8 @@ set(CMAKE_BUILD_TYPE Debug)
 
 set(LINK_LIB_EXT "")
 
-if(${BUILD_OS_TYPE} STREQUAL "qnx")
-    # make qnx-debug EXTRA_CFLAGS="-D__aarch64__" 
-    set(QNX_HOST $ENV{QNX_HOST})
-    set(QNX_TARGET $ENV{QNX_TARGET})
-    set(CMAKE_SYSTEM_NAME QNX)
-    set(CMAKE_SYSTEM_PROCESSOR aarach64)
-    set(arch gcc_ntoaarch64le)
-    set(CMAKE_CXX_FLAGS "${CMAKE_EXE_LINKER_FLAGS}  -std=gnu++14")
-    set(CMAKE_C_COMPILER qcc)
-    set(CMAKE_C_COMPILER_TARGET ${arch})
-    set(CMAKE_CXX_COMPILER q++)
-    set(CMAKE_CXX_COMPILER_TARGET ${arch})
-    list(APPEND LINK_LIB_EXT socket c)
-
-    add_definitions(-DOS_QNX)
-endif()
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+include(toolchain)
 
 set(PATH_3RD ${CMAKE_SOURCE_DIR}/3rdParty)
 set(PATH_ST_INC ${PATH_3RD}/stThread/state-threads/obj)
@@ -56,4 +42,4 @@ target_link_libraries(${PROJECT_NAME}
     PRIVATE pthread
 )
 
-
+add_subdirectory(sample)
